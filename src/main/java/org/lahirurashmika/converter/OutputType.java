@@ -1,8 +1,10 @@
 package org.lahirurashmika.converter;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public enum OutputType {
     VIDEO_MP4("mp4", "libx264", "aac"),
     VIDEO_WEBM("webm", "vp9", "libopus"),
@@ -14,9 +16,4 @@ public enum OutputType {
     private final String videoCodec;
     private final String audioCodec;
 
-    OutputType(String format, String videoCodec, String audioCodec) {
-        this.format = format;
-        this.videoCodec = videoCodec;
-        this.audioCodec = audioCodec;
-    }
 }

@@ -12,21 +12,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HLSConverter {
-
     // Default values for HLS parameters
     private static final int DEFAULT_SEGMENT_DURATION = 10;
-    private static final int DEFAULT_PLAYLIST_SIZE = 0; // 0 = infinite
+    private static final int DEFAULT_PLAYLIST_SIZE = 0; 
 
     public String[] convertToHls(String inputPath, String outputPath,
-                                 String outputFileName, OutputType outputType)
+            String outputFileName, OutputType outputType)
             throws Exception {
         return convertToHls(inputPath, outputPath, outputFileName, outputType,
                 DEFAULT_SEGMENT_DURATION, DEFAULT_PLAYLIST_SIZE,
                 null, null);
     }
 
+    public String[] convertToHls(String inputPath, String outputPath,
+            String outputFileName, OutputType outputType, int segmentDurationSec)
+            throws Exception {
+        return convertToHls(inputPath, outputPath, outputFileName, outputType,
+                segmentDurationSec, DEFAULT_PLAYLIST_SIZE,
+                null, null);
+    }
+
+    public String[] convertToHls(String inputPath, String outputPath,
+            String outputFileName, OutputType outputType, int segmentDurationSec, int playlistSize)
+            throws Exception {
+        return convertToHls(inputPath, outputPath, outputFileName, outputType,
+                segmentDurationSec, playlistSize,
+                null, null);
+    }
+
+    public String[] convertToHls(String inputPath, String outputPath,
+            String outputFileName, OutputType outputType, int segmentDurationSec, int playlistSize, String videoCodec)
+            throws Exception {
+        return convertToHls(inputPath, outputPath, outputFileName, outputType,
+                segmentDurationSec, playlistSize,
+                videoCodec, null);
+    }
+
     public String convertFromHls(String inputPath, String outputPath,
-                                 String outputFileName, OutputType outputType)
+            String outputFileName, OutputType outputType)
             throws IOException, FFmpegFrameGrabber.Exception {
 
         validatePaths(inputPath, outputPath);
@@ -51,7 +74,8 @@ public class HLSConverter {
 
                 while (true) {
                     org.bytedeco.javacv.Frame frame = grabber.grab();
-                    if (frame == null) break;
+                    if (frame == null)
+                        break;
                     recorder.record(frame);
                 }
             }
@@ -61,9 +85,9 @@ public class HLSConverter {
     }
 
     public String[] convertToHls(String inputPath, String outputPath,
-                                 String outputFileName, OutputType outputType,
-                                 int segmentDurationSec, int playlistSize,
-                                 String videoCodec, String audioCodec)
+            String outputFileName, OutputType outputType,
+            int segmentDurationSec, int playlistSize,
+            String videoCodec, String audioCodec)
             throws Exception {
 
         validatePaths(inputPath, outputPath);
@@ -93,7 +117,8 @@ public class HLSConverter {
 
                 while (true) {
                     org.bytedeco.javacv.Frame frame = grabber.grab();
-                    if (frame == null) break;
+                    if (frame == null)
+                        break;
                     recorder.record(frame);
                 }
             }
@@ -103,14 +128,12 @@ public class HLSConverter {
     }
 
     private void configureCodecs(FFmpegFrameRecorder recorder,
-                                 OutputType outputType,
-                                 String videoCodecParam,
-                                 String audioCodecParam) {
+            OutputType outputType,
+            String videoCodecParam,
+            String audioCodecParam) {
         // Determine final codecs to use
-        String videoCodec = (videoCodecParam != null) ?
-                videoCodecParam : outputType.getVideoCodec();
-        String audioCodec = (audioCodecParam != null) ?
-                audioCodecParam : outputType.getAudioCodec();
+        String videoCodec = (videoCodecParam != null) ? videoCodecParam : outputType.getVideoCodec();
+        String audioCodec = (audioCodecParam != null) ? audioCodecParam : outputType.getAudioCodec();
 
         // Set video codec if applicable
         if (videoCodec != null) {
@@ -157,8 +180,7 @@ public class HLSConverter {
         List<String> segments = new ArrayList<>();
         segments.add(outputPath + File.separator + baseName + ".m3u8");
 
-        File[] tsFiles = dir.listFiles((d, name) ->
-                name.startsWith(baseName) && name.endsWith(".ts"));
+        File[] tsFiles = dir.listFiles((d, name) -> name.startsWith(baseName) && name.endsWith(".ts"));
 
         if (tsFiles != null) {
             for (File ts : tsFiles) {
