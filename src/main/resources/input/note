@@ -1,0 +1,31 @@
+// Basic conversion with defaults
+String[] result1 = converter.convertToHls(
+    "input.mp4",
+    "output/",
+    "video",
+    OutputType.VIDEO_MP4
+);
+
+// Custom parameters
+String[] result2 = converter.convertToHls(
+    "input.mp4",
+    "output/",
+    "video",
+    OutputType.VIDEO_MP4,
+    5,       // 5-second segments
+    10,      // Keep last 10 segments in playlist
+    "h265",  // Force H.265 video codec
+    "aac"    // Force AAC audio codec
+);
+
+// WebM with VP9/Opus
+String[] result3 = converter.convertToHls(
+    "input.mp4",
+    "output/",
+    "video",
+    OutputType.VIDEO_WEBM,
+    8,       // 8-second segments
+    0,       // Infinite playlist
+    null,    // Use default from OutputType (vp9)
+    null     // Use default from OutputType (opus)
+);

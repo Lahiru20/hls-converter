@@ -131,6 +131,7 @@ public class HLSConverter {
             OutputType outputType,
             String videoCodecParam,
             String audioCodecParam) {
+
         // Determine final codecs to use
         String videoCodec = (videoCodecParam != null) ? videoCodecParam : outputType.getVideoCodec();
         String audioCodec = (audioCodecParam != null) ? audioCodecParam : outputType.getAudioCodec();
@@ -154,7 +155,6 @@ public class HLSConverter {
         }
     }
 
-    // Expanded codec mapping
     private int getAvCodec(String codecName) {
         switch (codecName.toLowerCase()) {
             case "libx264":
