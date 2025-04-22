@@ -15,5 +15,4 @@ public enum OutputType {
     private final String format;
     private final String videoCodec;
     private final String audioCodec;
-
 }
