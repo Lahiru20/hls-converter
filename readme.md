@@ -20,17 +20,15 @@ HLS Converter is a powerful dependency designed for seamless conversion of video
 ### Maven
 
 ```xml
-<dependency>
-    <groupId>com.yourcompany</groupId>
+    <groupId>io.github.lahiru20</groupId>
     <artifactId>hls-converter</artifactId>
-    <version>1.0.0</version>
-</dependency>
+    <version>1.0.1</version>
 ```
 
 ### Gradle
 
 ```gradle
-implementation 'com.yourcompany:hls-converter:1.0.0'
+implementation 'io.github.lahiru20:hls-converter:1.0.1'
 ```
 
 > **Note:** This library requires JavaCV and FFmpeg as dependencies. Make sure they are properly installed on your system or included in your project dependencies.
