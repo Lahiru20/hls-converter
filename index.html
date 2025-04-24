@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HLS Converter Documentation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>HLS Converter</h1>
+        <p class="subheading">converting media files to and from HLS (HTTP Live Streaming)</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#usage">Usage</a></li>
+            <li><a href="#api">API Reference</a></li>
+            <li><a href="#examples">Examples</a></li>
+        </ul>
+    </nav>
+    
+    <section id="overview">
+        <h2 class="section-title">Overview</h2>
+        
+        <div class="overview-banner">
+            <h3>What is HLS Converter?</h3>
+            <div class="overview-content">
+                <p>HLS Converter is a powerful dependency designed for seamless conversion of video and audio files to the HLS (HTTP Live Streaming) format (.m3u8) with just a single line of code. It also supports reverse conversion to .m3u8 files back into audio or video formats, including all HLS supported formats such as MP4, MP3, and more. See the documentation for full usage details and supported formats.</p>
+            </div>
+        </div>
+        
+        <div class="feature-grid">
+            <div class="feature-item">
+                <div class="feature-icon">⚡</div>
+                <h4 class="feature-title">One-Line Conversion</h4>
+                <p>Transform media files to HLS format with minimal code, ideal for streaming applications.</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">🔄</div>
+                <h4 class="feature-title">Bi-directional Support</h4>
+                <p>Convert to HLS and back again with comprehensive format support.</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">⚙️</div>
+                <h4 class="feature-title">Customizable Settings</h4>
+                <p>Configure segment duration, playlist size, and codecs to match your requirements.</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">🌐</div>
+                <h4 class="feature-title">Web Application Ready</h4>
+                <p>Seamless integration with Spring's MultipartFile for web applications.</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">📊</div>
+                <h4 class="feature-title">Multiple Formats</h4>
+                <p>Support for MP4, WEBM, AAC, MP3, OPUS and more media formats.</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">🔌</div>
+                <h4 class="feature-title">Easy Integration</h4>
+                <p>Simple API that works with both file systems and Spring applications.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="installation">
+        <h2 class="section-title">Installation</h2>
+        <div class="card">
+            <h3>Maven</h3>
+            <pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;com.yourcompany&lt;/groupId&gt;
+    &lt;artifactId&gt;hls-converter&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+
+            <h3>Gradle</h3>
+            <pre><code>implementation 'com.yourcompany:hls-converter:1.0.0'</code></pre>
+            
+            <div class="note">
+                <p><strong>Note:</strong> This library requires JavaCV and FFmpeg as dependencies. Make sure they are properly installed on your system or included in your project dependencies.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="usage">
+        <h2 class="section-title">Usage</h2>
+        <div class="card">
+            <h3>Basic Usage</h3>
+            <p>The library provides two versatile classes to handle different use cases:</p>
+            <div class="usage-cards">
+                <div class="usage-card">
+                    <h4><code>HLSConverter</code></h4>
+                    <p>Designed for file-based operations, this class allows you to convert media files to and from HLS format effortlessly.</p>
+                </div>
+                <div class="usage-card">
+                    <h4><code>HLSConverterMultipartFile</code></h4>
+                    <p>Perfect for web applications, this class supports operations with Spring's <code>MultipartFile</code>, enabling seamless integration with file uploads.</p>
+                </div>
+            </div>
+            <br>
+            
+            <h4>Converting a file to HLS</h4>
+            <pre><code>import com.yourcompany.hlsconverter.HLSConverter;
+import com.yourcompany.hlsconverter.OutputType;
+
+// Basic conversion with default parameters
+HLSConverter converter = new HLSConverter();
+String[] outputFiles = converter.convertToHls(
+    "/path/to/input.mp4",
+    "/output/directory",
+    "output_filename",
+    OutputType.VIDEO_MP4
+);</code></pre>
+
+            <h4>Converting HLS back to a regular format</h4>
+            <pre><code>// Convert HLS file back to MP4
+String outputFile = converter.convertFromHls(
+    "/path/to/playlist.m3u8",
+    "/output/directory",
+    "output_filename",
+    OutputType.VIDEO_MP4
+);</code></pre>
+        </div>
+        
+        <div class="card">
+            <h3>Working with Spring MultipartFile</h3>
+            <pre><code>import com.yourcompany.hlsconverter.HLSConverterMultipartFile;
+import com.yourcompany.hlsconverter.OutputType;
+import org.springframework.web.multipart.MultipartFile;
+
+// Convert uploaded file to HLS
+HLSConverterMultipartFile converter = new HLSConverterMultipartFile();
+MultipartFile[] hlsFiles = converter.convertToHlsMultipartFile(
+    uploadedFile,
+    "output_filename",
+    OutputType.VIDEO_MP4
+);</code></pre>
+        </div>
+    </section>
+    
+    <section id="api">
+        <h2 class="section-title">API Reference</h2>
+        
+        <div class="card">
+            <h3>HLSConverter Class</h3>
+            
+            <div class="method-signature">
+                <code>public String[] convertToHls(String inputPath, String outputPath, String outputFileName, OutputType outputType) throws Exception</code>
+            </div>
+            <p>Converts a media file to HLS format with default settings (10-second segments, unlimited playlist size).</p>
+            <div class="parameters">
+                <div class="parameter">
+                    <span class="parameter-name">inputPath</span> <span class="parameter-type">(String)</span>: Path to the input media file
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">outputPath</span> <span class="parameter-type">(String)</span>: Directory where HLS files will be saved
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">outputFileName</span> <span class="parameter-type">(String)</span>: Base name for output files (without extension)
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">outputType</span> <span class="parameter-type">(OutputType)</span>: The output format configuration
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">Returns</span>: Array of paths to generated files (m3u8 playlist and ts segments)
+                </div>
+            </div>
+            
+            <div class="method-signature">
+                <code>public String[] convertToHls(String inputPath, String outputPath, String outputFileName, OutputType outputType, int segmentDurationSec) throws Exception</code>
+            </div>
+            <p>Converts a media file to HLS format with custom segment duration.</p>
+            <div class="parameters">
+                <div class="parameter">
+                    <span class="parameter-name">segmentDurationSec</span> <span class="parameter-type">(int)</span>: Duration of each segment in seconds
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">Returns</span>: Array of paths to generated files
+                </div>
+            </div>
+            
+            <div class="method-signature">
+                <code>public String[] convertToHls(String inputPath, String outputPath, String outputFileName, OutputType outputType, int segmentDurationSec, int playlistSize) throws Exception</code>
+            </div>
+            <p>Converts a media file to HLS format with custom segment duration and playlist size.</p>
+            <div class="parameters">
+                <div class="parameter">
+                    <span class="parameter-name">playlistSize</span> <span class="parameter-type">(int)</span>: Number of segments to keep in the playlist (0 = all)
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">Returns</span>: Array of paths to generated files
+                </div>
+            </div>
+            
+            <div class="method-signature">
+                <code>public String[] convertToHls(String inputPath, String outputPath, String outputFileName, OutputType outputType, int segmentDurationSec, int playlistSize, String videoCodec, String audioCodec) throws Exception</code>
+            </div>
+            <p>Converts a media file to HLS format with full customization options.</p>
+            <div class="parameters">
+                <div class="parameter">
+                    <span class="parameter-name">videoCodec</span> <span class="parameter-type">(String)</span>: Custom video codec (null to use OutputType default)
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">audioCodec</span> <span class="parameter-type">(String)</span>: Custom audio codec (null to use OutputType default)
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">Returns</span>: Array of paths to generated files
+                </div>
+            </div>
+
+            <div class="method-signature">
+                <code>public String convertFromHls(String inputPath, String outputPath, String outputFileName, OutputType outputType) throws IOException, FFmpegFrameGrabber.Exception</code>
+            </div>
+            <p>Converts an HLS playlist back to a regular media file.</p>
+            <div class="parameters">
+                <div class="parameter">
+                    <span class="parameter-name">inputPath</span> <span class="parameter-type">(String)</span>: Path to the HLS playlist (.m3u8 file)
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">outputPath</span> <span class="parameter-type">(String)</span>: Directory where the output file will be saved
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">outputFileName</span> <span class="parameter-type">(String)</span>: Name for the output file (without extension)
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">outputType</span> <span class="parameter-type">(OutputType)</span>: The output format configuration
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">Returns</span>: Path to the generated output file
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>HLSConverterMultipartFile Class</h3>
+            
+            <div class="method-signature">
+                <code>public MultipartFile[] convertToHlsMultipartFile(MultipartFile inputFile, String outputFileName, OutputType outputType) throws Exception</code>
+            </div>
+            <p>Converts a Spring MultipartFile to HLS format with default settings (10-second segments, 5 files in playlist).</p>
+            <div class="parameters">
+                <div class="parameter">
+                    <span class="parameter-name">inputFile</span> <span class="parameter-type">(MultipartFile)</span>: The input media file
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">outputFileName</span> <span class="parameter-type">(String)</span>: Base name for output files (without extension)
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">outputType</span> <span class="parameter-type">(OutputType)</span>: The output format configuration
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">Returns</span>: Array of MultipartFile objects (m3u8 playlist and ts segments)
+                </div>
+            </div>
+            
+            <div class="method-signature">
+                <code>public MultipartFile[] convertToHlsMultipartFile(MultipartFile inputFile, String outputFileName, OutputType outputType, int segmentDuration) throws Exception</code>
+            </div>
+            <p>Converts a Spring MultipartFile to HLS format with custom segment duration.</p>
+            <div class="parameters">
+                <div class="parameter">
+                    <span class="parameter-name">segmentDuration</span> <span class="parameter-type">(int)</span>: Duration of each segment in seconds
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">Returns</span>: Array of MultipartFile objects
+                </div>
+            </div>
+            
+            <div class="method-signature">
+                <code>public MultipartFile[] convertToHlsMultipartFile(MultipartFile inputFile, String outputFileName, OutputType outputType, int segmentDuration, int hlsListSize) throws Exception</code>
+            </div>
+            <p>Converts a Spring MultipartFile to HLS format with custom segment duration and playlist size.</p>
+            <div class="parameters">
+                <div class="parameter">
+                    <span class="parameter-name">hlsListSize</span> <span class="parameter-type">(int)</span>: Number of segments to keep in the playlist
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">Returns</span>: Array of MultipartFile objects
+                </div>
+            </div>
+            
+            <div class="method-signature">
+                <code>public MultipartFile convertFromHlsMultipartFile(MultipartFile hlsFile, String outputFileName, OutputType outputType) throws Exception</code>
+            </div>
+            <p>Converts an HLS playlist (as MultipartFile) back to a regular media file.</p>
+            <div class="parameters">
+                <div class="parameter">
+                    <span class="parameter-name">hlsFile</span> <span class="parameter-type">(MultipartFile)</span>: The HLS playlist file (.m3u8)
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">outputFileName</span> <span class="parameter-type">(String)</span>: Name for the output file (without extension)
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">outputType</span> <span class="parameter-type">(OutputType)</span>: The output format configuration
+                </div>
+                <div class="parameter">
+                    <span class="parameter-name">Returns</span>: MultipartFile containing the converted output
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>OutputType Enum</h3>
+            <p>This enum defines the supported output formats and their default codecs:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Format</th>
+                        <th>Video Codec</th>
+                        <th>Audio Codec</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>VIDEO_MP4</td>
+                        <td>mp4</td>
+                        <td>libx264</td>
+                        <td>aac</td>
+                    </tr>
+                    <tr>
+                        <td>VIDEO_WEBM</td>
+                        <td>webm</td>
+                        <td>vp9</td>
+                        <td>libopus</td>
+                    </tr>
+                    <tr>
+                        <td>AUDIO_AAC</td>
+                        <td>aac</td>
+                        <td>null</td>
+                        <td>aac</td>
+                    </tr>
+                    <tr>
+                        <td>AUDIO_MP3</td>
+                        <td>mp3</td>
+                        <td>null</td>
+                        <td>libmp3lame</td>
+                    </tr>
+                    <tr>
+                        <td>AUDIO_OPUS</td>
+                        <td>opus</td>
+                        <td>null</td>
+                        <td>libopus</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+    <section id="examples">
+        <h2 class="section-title">Examples</h2>
+        
+        <div class="card">
+            <h3>Example 1: Basic Conversion</h3>
+            <div class="tab-container">
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab(event, 'java-basic')">Java</div>
+                    <div class="tab" onclick="switchTab(event, 'spring-basic')">Spring Boot</div>
+                </div>
+                
+                <div id="java-basic" class="tab-content active">
+                    <pre><code>import com.yourcompany.hlsconverter.HLSConverter;
+import com.yourcompany.hlsconverter.OutputType;
+
+public class BasicExample {
+    public static void main(String[] args) {
+        try {
+            // Initialize converter
+            HLSConverter converter = new HLSConverter();
+            
+            // Convert MP4 to HLS with default settings
+            String[] outputFiles = converter.convertToHls(
+                "input.mp4",
+                "output_directory",
+                "video_stream",
+                OutputType.VIDEO_MP4
+            );
+            
+            // Print paths of generated files
+            System.out.println("Generated files:");
+            for (String file : outputFiles) {
+                System.out.println(file);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                </div>
+                
+                <div id="spring-basic" class="tab-content">
+                    <pre><code>import com.yourcompany.hlsconverter.HLSConverterMultipartFile;
+import com.yourcompany.hlsconverter.OutputType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+@RestController
+public class ConversionController {
+
+    @PostMapping("/convert")
+    public ResponseEntity<?> convertVideo(@RequestParam("file") MultipartFile file) {
+        try {
+            HLSConverterMultipartFile converter = new HLSConverterMultipartFile();
+            
+            // Convert uploaded file to HLS
+            MultipartFile[] hlsFiles = converter.convertToHlsMultipartFile(
+                file,
+                "video_stream",
+                OutputType.VIDEO_MP4
+            );
+            
+            // In a real application, you would save these files or return them to client
+            return ResponseEntity.ok("Converted " + hlsFiles.length + " HLS files");
+            
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error converting file: " + e.getMessage());
+        }
+    }
+}</code></pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>Example 2: Advanced Configuration</h3>
+            <div class="tab-container">
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab(event, 'java-advanced')">Java</div>
+                    <div class="tab" onclick="switchTab(event, 'spring-advanced')">Spring Boot</div>
+                </div>
+                
+                <div id="java-advanced" class="tab-content active">
+                    <pre><code>import com.yourcompany.hlsconverter.HLSConverter;
+import com.yourcompany.hlsconverter.OutputType;
+
+public class AdvancedExample {
+    public static void main(String[] args) {
+        try {
+            // Initialize converter
+            HLSConverter converter = new HLSConverter();
+            
+            // Convert with custom settings
+            // - 5-second segments
+            // - Keep only 10 segments in playlist
+            // - Force H.265 video codec
+            String[] outputFiles = converter.convertToHls(
+                "input.mp4",
+                "output_directory",
+                "video_stream",
+                OutputType.VIDEO_MP4,
+                5,  // segment duration
+                10, // playlist size
+                "libx265", // video codec
+                null  // use default audio codec
+            );
+            
+            System.out.println("Generated " + outputFiles.length + " files");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                </div>
+                
+                <div id="spring-advanced" class="tab-content">
+                    <pre><code>import com.yourcompany.hlsconverter.HLSConverterMultipartFile;
+import com.yourcompany.hlsconverter.OutputType;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+@RestController
+public class AdvancedConversionController {
+
+    @PostMapping("/convert-and-download")
+    public ResponseEntity<Resource> convertAndDownload(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(value = "segmentDuration", defaultValue = "5") int segmentDuration,
+            @RequestParam(value = "format", defaultValue = "VIDEO_MP4") String format) {
+        
+        try {
+            // Determine output format
+            OutputType outputType = OutputType.valueOf(format);
+            
+            // Convert the file
+            HLSConverterMultipartFile converter = new HLSConverterMultipartFile();
+            MultipartFile[] hlsFiles = converter.convertToHlsMultipartFile(
+                file,
+                "video_stream",
+                outputType,
+                segmentDuration
+            );
+            
+            // Return the playlist file for download
+            MultipartFile playlist = hlsFiles[0]; // First file is the m3u8 playlist
+            
+            ByteArrayResource resource = new ByteArrayResource(playlist.getBytes());
+            
+            return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + playlist.getOriginalFilename() + "\"")
+                .contentType(MediaType.parseMediaType("application/x-mpegURL"))
+                .body(resource);
+                
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+}</code></pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>Example 3: Converting HLS Back to Regular Format</h3>
+            <pre><code>import com.yourcompany.hlsconverter.HLSConverter;
+import com.yourcompany.hlsconverter.OutputType;
+
+public class HlsToMp4Example {
+    public static void main(String[] args) {
+        try {
+            HLSConverter converter = new HLSConverter();
+            
+            // Convert HLS playlist to MP4 file
+            String outputFile = converter.convertFromHls(
+                "input.m3u8",
+                "output_directory",
+                "final_video",
+                OutputType.VIDEO_MP4
+            );
+            
+            System.out.println("Generated output file: " + outputFile);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
